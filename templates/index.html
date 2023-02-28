@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <form action="/result" method="POST">
+    <div id="classMain">
+       <div id="left">
+            {% if mood %}
+                <img src="{{imgUrl}}" alt="No Image">
+                <br>
+            {% endif %}
+        <button type="submit"  id="btn">Play</button>
+    </div>
+    <div id="right">
+        {% if mood %}
+                <p id="mood">Mood: {{mood}}</p>
+                <p id="song">Playing Song: {{song}}</p>
+                <p id="album">Album: {{AlbumName}}</p>
+                <p id="playlist">Playlist: {{playlist}}</p>
+            {% endif %}
+    </div>
+    </div>
+    </form>
+</body>
+</html>
