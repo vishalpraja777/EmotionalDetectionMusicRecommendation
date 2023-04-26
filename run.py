@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 import faceRead
 
 app = Flask(__name__)
@@ -10,7 +10,9 @@ def home():
 
 @app.route("/result",methods=['POST','GET'])
 def result():
-    res = faceRead.readImage()
+    output = request.form.to_dict()
+    lang = output['language']
+    res = faceRead.readImage(lang)
     song = res['song']
     playlist = res['playlist']
     mood = res['mood']

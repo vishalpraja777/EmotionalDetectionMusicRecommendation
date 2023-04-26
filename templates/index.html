@@ -14,16 +14,27 @@
             {% if mood %}
                 <img src="{{imgUrl}}" alt="No Image">
                 <br>
+                {% else%}
+                <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="No Image">
+                <br>
             {% endif %}
+            <div id="inp">
+            <div id="sel">
+            <label for="language" id="label">Song Language: </label>
+            <select name="language" id="lang">
+                <option value="Hindi">Hindi</option>
+                <option value="English">English</option>
+                <option value="Kannada">Kannada</option>
+            </select>
+        </div>
         <button type="submit"  id="btn">Play</button>
     </div>
+    </div>
     <div id="right">
-        {% if mood %}
                 <p id="mood">Mood: {{mood}}</p>
                 <p id="song">Playing Song: {{song}}</p>
                 <p id="album">Album: {{AlbumName}}</p>
                 <p id="playlist">Playlist: {{playlist}}</p>
-            {% endif %}
     </div>
     </div>
     </form>

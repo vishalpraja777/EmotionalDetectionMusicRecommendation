@@ -41,39 +41,39 @@ spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(cl
 # for album in albums:
 #     print(album['name'])
 
-def test():
-    type = 'track'
-    name = input('Enter song name: ')
-    results = spotify.search(q=name, type=type)
-    # results = spotify.search(q=name, type='playlist')
+# def test():
+#     type = 'track'
+#     name = input('Enter song name: ')
+#     results = spotify.search(q=name, type=type)
+#     # results = spotify.search(q=name, type='playlist')
 
-    res = results[type+'s']['items']
+#     res = results[type+'s']['items']
 
-    # print(results['playlists']['items'][0]['name'])
+#     # print(results['playlists']['items'][0]['name'])
 
-    # Get the URI of the first result
-    # item = results['tracks']['items'][0]
+#     # Get the URI of the first result
+#     # item = results['tracks']['items'][0]
 
-    # Play the song using the URI
-    # spotify.start_playback(uris=[uri])
+#     # Play the song using the URI
+#     # spotify.start_playback(uris=[uri])
 
-    songList = []
-    for item in res:
-        print(item['name'],item['uri'])
-        songList.append(item)
+#     songList = []
+#     for item in res:
+#         print(item['name'],item['uri'])
+#         songList.append(item)
 
-    rand = random.randint(1,len(songList))
+#     rand = random.randint(1,len(songList))
 
-    # webbrowser.open(results['tracks']['items'][0]['uri'])
-    song = songList[rand-1]['uri']
-    webbrowser.open(song)
+#     # webbrowser.open(results['tracks']['items'][0]['uri'])
+#     song = songList[rand-1]['uri']
+#     webbrowser.open(song)
 
 def track(uri):
     results = spotify.playlist(uri)
     playlistName = results['name']
     print('\nPlaylist Name: '+ playlistName)
     res = results['tracks']['items']
-    print("Result:")
+    # print("Result:")
     # dict_keys(['album_type', 'artists', 'available_markets', 'external_urls', 'href', 'id', 'images', 'name', 'release_date', 'release_date_precision', 'total_tracks', 'type', 'uri'])
     
     songList = []
@@ -98,27 +98,27 @@ def track(uri):
     dic = {'song': songName,'playlist':playlistName,'imgUrl':imgUrl,'AlbumName':AlbumName}
     return dic
 
-def playlist(name):
-    results = spotify.search(q=name, type='playlist')
-    # results = spotify.search(q=name, type='playlist')
+# def playlist(name):
+#     results = spotify.search(q=name, type='playlist')
+#     # results = spotify.search(q=name, type='playlist')
 
-    res = results['playlists']['items']
+#     res = results['playlists']['items']
 
-    songList = []
-    for item in res:
-        print(item['name'],item['uri'])
-        songList.append(item)
+#     songList = []
+#     for item in res:
+#         print(item['name'],item['uri'])
+#         songList.append(item)
 
-    rand = random.randint(0,len(songList)-1)
-    rand = 0
-    playlistUri = songList[rand]['uri']
-    playlistName = songList[rand]['name']
-    # webbrowser.open(playlist)
-    track(playlistUri)
-    print('Playlist Name: ' + playlistName)
+#     rand = random.randint(0,len(songList)-1)
+#     rand = 0
+#     playlistUri = songList[rand]['uri']
+#     playlistName = songList[rand]['name']
+#     # webbrowser.open(playlist)
+#     track(playlistUri)
+#     print('Playlist Name: ' + playlistName)
 
-# name = input('Enter song name: ')
-# playlist(name)
+# # name = input('Enter song name: ')
+# # playlist(name)
 
 def selectPlaylist(emotion,lang):
     playlist = {
@@ -136,7 +136,15 @@ def selectPlaylist(emotion,lang):
         'angryEnglish':'https://open.spotify.com/playlist/67STztGl7srSMNn6hVYPFR?si=ad63636c6b714371',
         'neutralEnglish':'https://open.spotify.com/playlist/7msgpEqduZvJT2lqUMlM1J?si=0e92f6f357964114',
         'disgustEnglish':'https://open.spotify.com/playlist/7tkuMGECLRUPuSj5SY2ErP?si=47df8b6c15cf4e64',
-        'supriseEnglish':'https://open.spotify.com/playlist/3Zu0J0JzSRzAT32LgFyg7i?si=201732563bf44707'
+        'supriseEnglish':'https://open.spotify.com/playlist/3Zu0J0JzSRzAT32LgFyg7i?si=201732563bf44707',
+
+        'happyKannada':'https://open.spotify.com/playlist/37i9dQZF1DX1ahAlaaz0ZE?si=mAUOEaj3SeWrOzfuXeZGfg',
+        'sadKannada':'https://open.spotify.com/album/3heIMtSen3osCkA3otiuCI?si=mnlr2PopS7a8F_c-Mi1pXg',
+        'fearKannada':'https://open.spotify.com/playlist/1C2ZX32E6c5FgOwD3OWsbl?si=Lqg8JR1BR7Wo-aMZKYrp9Q',
+        'angryKannada':'https://open.spotify.com/playlist/37i9dQZF1DX9i6vCEoH6jH?si=HivcDcL-Q1KrlQX3mRXANQ',
+        'neutralKannada':'https://open.spotify.com/playlist/5JvdtbtyDhOWPApaRVY4wC?si=HQm9bH6rSrGwhJ8wklVcdw',
+        'disgustKannada':'https://open.spotify.com/playlist/7tkuMGECLRUPuSj5SY2ErP?si=47df8b6c15cf4e64',
+        'supriseKannada':'https://open.spotify.com/playlist/37i9dQZF1DX2MvScOHAAiE?si=ZvAOAOS3RWG5q8MN_7Yu7Q'
         }
     res = track(playlist[emotion+lang])
     return res

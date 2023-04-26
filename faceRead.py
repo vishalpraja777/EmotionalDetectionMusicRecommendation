@@ -2,6 +2,7 @@ import cv2
 from deepface import DeepFace
 import matplotlib.pyplot as plt
 import spotifyApi
+from modelFiles import TestEmotionDetector
 
 # Load the cascade for face detection
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml')
@@ -12,10 +13,13 @@ recognizer = cv2.face.LBPHFaceRecognizer_create()
 # recognizer.read('recognizers/face-trainner.yml')
 recognizer.read('recognizers/face-trainner.yml')
 
-def readImage():
+
+
+def readImage(lang):
     cap = cv2.VideoCapture(0)
     # cap = cv2.VideoCapture("C:\\Users\\Vishal Prajapathi\\Downloads\\sampleVideo.mp4")
     flag = 0
+
     while True:
         # Read a frame from the camera
         ret, frame = cap.read()
@@ -44,6 +48,12 @@ def readImage():
                 # resized = cv2.resize(frame,(w,h))
 
                 # Draw a rectangle around the face
+
+                xf = x
+                yf = y
+                wf = w
+                hf = h
+
                 cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
                 # print(x,y)
                 # print(w,h)
@@ -65,31 +75,47 @@ def readImage():
     # Release the camera and close all windows
     cap.release()
     cv2.destroyAllWindows()
-    emotion = detectEmotion()
-    lang = 'Hindi'
+    emotion = detectEmotion(xf,yf,wf,hf)
     res = spotifyApi.selectPlaylist(emotion,lang)
     res["mood"] = emotion
     return res
 
-def detectEmotion():
+def detectEmotion(xf,yf,wf,hf):
     OriImg = cv2.imread('ImageOutput/originalOutput.jpg')
     CrpImg = cv2.imread('ImageOutput/croppedOutput.jpg')
 
-    fig = plt.figure(figsize=(7, 5))
+    fig = plt.figure(figsize=(7, 6))
 
-    fig.add_subplot(2,2,1)
+    r=2;c=2
+
+    fig.add_subplot(r,c,1)
     plt.imshow(OriImg[:,:,::-1])
     plt.title("OriginalImage")
 
-    fig.add_subplot(2,2,2)
+    fig.add_subplot(r,c,2)
     plt.imshow(CrpImg[:,:,::-1])
     plt.title("CroppedImage")
-    
-    # plt.show()
+
     result = DeepFace.analyze(CrpImg,actions = ['emotion'])
+    # result = TestEmotionDetector.findEmotion(CrpImg,xf,yf,wf,hf)
+
+    fig.add_subplot(3,1,3)
+    plt.bar(result[0]['emotion'].keys(), result[0]['emotion'].values())
+
+    # Set x and y axis labels
+    plt.xlabel('Emotions')
+    plt.ylabel('Percentage')
+
+    # Set title
+    plt.title('Graph of Result')
+    
+    plt.show()
+    
     print('\nResult: ' + str(result))
     dominant_emotion = result[0]["dominant_emotion"]
-    print('\nDominant Emotion: ',dominant_emotion)
+    # print('\nDominant Emotion: ',dominant_emotion)
     return dominant_emotion
+    # return result
 
-# readImage()
+# print(readImage("Hindi"))
+# print(detectEmotion(1,1,1,1))
